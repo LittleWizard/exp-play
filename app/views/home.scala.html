@@ -1,0 +1,18 @@
+@(wvypBody: Html, wvyuBody: Html, css: Seq[String], js: Seq[String])
+<html>
+
+    <head>
+        @for(url <- css) {
+            <link rel="stylesheet" href="@url"/>
+        }
+        @for(url <- js) {
+            <script src="@url" type="text/javascript"></script>
+        }
+    </head>
+
+    <body>
+        @wvypBody
+        @wvyuBody
+    </body>
+
+</html>

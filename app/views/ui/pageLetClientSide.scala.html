@@ -1,0 +1,13 @@
+@import utils.PageLetContentType
+@import utils.Embed
+@(content: String, id: String, contentType: PageLetContentType)
+
+
+@defining(s"$id-$contentType") { contentId =>
+  <code id = "@contentId" class = "bigpipe-embed-html"><!-- @Embed.escapeForEmbedding(content) --></code>
+  <script>
+      (function() {
+          this.BigPipe.onPageLet("@id", "@contentId", "@contentType.name()");
+      }.call(this));
+  </script>
+}

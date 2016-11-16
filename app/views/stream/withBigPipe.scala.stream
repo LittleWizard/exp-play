@@ -1,0 +1,39 @@
+@import utils._
+@import ui.HtmlStream
+
+
+@(bigPipe: BigPipe, profile: PageLet, graph: PageLet, feed: PageLet, inbox: PageLet, ads: PageLet, search: PageLet)
+
+<html>
+    <head>
+        <link rel = "stylesheet" href = "/assets/stylesheets/bigPipe.css"/>
+        <script src = "/assets/javascripts/big-pipe.js" type = "text/javascript"></script>
+
+    </head>
+    <body>
+        <h1>With Big Pipe</h1>
+        @HtmlStream.fromHtml(views.html.ui.timing())
+
+            <!--
+      Wrap the entire body of your page with a bigPipe.render call. The pagelets parameter contains a Map from
+      Pagelet id to the HtmlStream for that Pagelet. You should put the HtmlStream for each of your Pagelets
+      into the appropriate place in the markup.
+    -->
+        @bigPipe.render { pageLets =>
+          <table>
+              <tr>
+                  <td>@pageLets(profile.id)</td>
+                  <td>@pageLets(ads.id)</td>
+                  <td>@pageLets(feed.id)</td>
+              </tr>
+              <tr>
+                  <td>@pageLets(search.id)</td>
+                  <td>@pageLets(inbox.id)</td>
+                  <td>@pageLets(graph.id)</td>
+              </tr>
+          </table>
+        }
+
+
+    </body>
+</html>

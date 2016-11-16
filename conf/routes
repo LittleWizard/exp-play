@@ -1,0 +1,32 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /home                           controllers.HomeController.index
+# An example controller showing how to use dependency injection
+GET     /count                      controllers.CountController.count
+# An example controller showing how to write asynchronous code
+GET     /message                    controllers.AsyncController.message
+
+GET   /mock/:serviceName           controllers.MockController.mock(serviceName: String)
+
+
+GET     /wvyp                 controllers.WvypController.index(embed: Boolean ?=  false)
+GET     /wvyp2                controllers.Wvyp2Controller.index(embed: Boolean ?= false)
+GET     /wvyp3                controllers.Wvyp2Controller.index2(embed: Boolean ?= false)
+GET     /withBigPipe          controllers.WithBigPipe.index
+GET     /wvyu                     controllers.WvyuController.index(embed: Boolean ?=  false)
+
+
+GET     /enum                   controllers.EnumController.index
+GET     /inf1                   controllers.EnumController.inf1
+GET     /inf2                   controllers.EnumController.inf2
+GET     /inf3                   controllers.EnumController.inf3
+
+GET     /compose                   controllers.EnumController.compose
+
+GET     /inf4                   controllers.EnumController.inf4
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
