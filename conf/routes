@@ -18,6 +18,9 @@ GET     /wvyp3                controllers.Wvyp2Controller.index2(embed: Boolean 
 GET     /withBigPipe          controllers.WithBigPipe.index
 GET     /withBigPipeClientSide          controllers.WithBigPipe.clientSideTemplating
 
+GET     /test                   controllers.TestController.test
+
+
 GET     /withBigPipeEscaping         controllers.WithBigPipe.bigPipeEscaping
 
 GET     /wvyu                     controllers.WvyuController.index(embed: Boolean ?=  false)

@@ -1,0 +1,9 @@
+@import ui.HtmlStream
+@import play.twirl.api.Html
+@()
+
+@utils.TestUtils.renderStream { in =>
+
+  <p>@HtmlStream(Html(in))</p>
+
+}
