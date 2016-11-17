@@ -6,8 +6,10 @@ import akka.stream.scaladsl.Source
 import data.FakeServiceClient
 import play.api.libs.streams.Streams
 import play.api.mvc.{Action, Controller}
-import utils.{PageLetRenderOptions, BigPipe, HtmlPageLet}
+import utils.{JsonPageLet, PageLetRenderOptions, BigPipe, HtmlPageLet}
 import views.stream.stream.withBigPipe
+import views.stream.stream.clientSide
+import views.stream.stream.escaping
 import scala.concurrent.ExecutionContext.Implicits.global
 import ui.HtmlStreamImplicits._
 
@@ -45,5 +47,49 @@ class WithBigPipe @Inject() (fakeServiceClient: FakeServiceClient) extends Contr
     Ok.chunked(result)
 
   }
+
+
+  def clientSideTemplating = Action {
+    val profileFuture = fakeServiceClient.fakeRemoteCallJsonMedium("profile")
+    val graphFuture = fakeServiceClient.fakeRemoteCallJsonMedium("graph")
+    val feedFuture = fakeServiceClient.fakeRemoteCallJsonSlow("feed")
+    val inboxFuture = fakeServiceClient.fakeRemoteCallJsonSlow("inbox")
+    val adsFuture = fakeServiceClient.fakeRemoteCallJsonFast("ads")
+    val searchFuture = fakeServiceClient.fakeRemoteCallJsonFast("search")
+
+    val profile = JsonPageLet("profile", profileFuture)
+    val graph = JsonPageLet("graph", graphFuture)
+    val feed = JsonPageLet("feed", feedFuture)
+    val inbox = JsonPageLet("inbox", inboxFuture)
+    val ads = JsonPageLet("ads", adsFuture)
+    val search = JsonPageLet("search", searchFuture)
+    val bigPipe = new BigPipe(PageLetRenderOptions.ClientSide, profile, graph, feed, inbox, ads, search)
+
+    val res = clientSide(bigPipe, profile, graph, feed, inbox, ads, search)
+    val result = Source.fromPublisher(Streams.enumeratorToPublisher(res))
+    Ok.chunked(result)
+  }
+
+
+  /**
+   * Shows an example of how BigPipe escapes the contents of your PageLets so they cannot break out of their containing HTML elements
+   * (which are intentionally invisible)
+   * @return
+   */
+
+  def bigPipeEscaping = Action {
+    val shouldBeEscapedFuture = fakeServiceClient.fakeRemoteCallJsonFast(FakeServiceClient.RESPONSE_TO_TEST_ESCAPING)
+
+    val shouldBeEscaped = JsonPageLet("shouldBeEscaped", shouldBeEscapedFuture)
+
+    val bigPipe = new BigPipe(PageLetRenderOptions.ClientSide, shouldBeEscaped)
+
+    val res = escaping(bigPipe, shouldBeEscaped)
+    val result = Source.fromPublisher(Streams.enumeratorToPublisher(res))
+    Ok.chunked(result)
+  }
+
+
+
 
 }

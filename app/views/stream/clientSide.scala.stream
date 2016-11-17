@@ -1,0 +1,36 @@
+@import utils._
+@import ui.HtmlStream
+
+@(bigPipe: BigPipe, profile: PageLet, graph: PageLet, feed: PageLet, inbox: PageLet, ads: PageLet, search: PageLet)
+
+<html>
+    <head>
+        <link rel = "stylesheet" href = "/assets/stylesheets/main.css"/>
+        <script src = "/assets/javascripts/big-pipe.js"></script>
+        <script src = "/assets/javascripts/mustache.js"></script>
+        <script src = "/assets/javascripts/big-pipe-with-mustache.js"></script>
+    </head>
+
+    <body>
+        <h1>With big pipe and client side rendering</h1>
+        @HtmlStream.fromHtml(views.html.ui.timing())
+
+        @bigPipe.render { pagelets =>
+
+          <table class = "wrapper">
+              <tr>
+                  <td>@pagelets(profile.id)</td>
+                  <td>@pagelets(ads.id)</td>
+                  <td>@pagelets(feed.id)</td>
+              </tr>
+              <tr>
+                  <td>@pagelets(search.id)</td>
+                  <td>@pagelets(inbox.id)</td>
+                  <td>@pagelets(graph.id)</td>
+              </tr>
+          </table>
+        }
+
+    </body>
+
+</html>

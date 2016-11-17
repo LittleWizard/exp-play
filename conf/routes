@@ -16,6 +16,10 @@ GET     /wvyp                 controllers.WvypController.index(embed: Boolean ?=
 GET     /wvyp2                controllers.Wvyp2Controller.index(embed: Boolean ?= false)
 GET     /wvyp3                controllers.Wvyp2Controller.index2(embed: Boolean ?= false)
 GET     /withBigPipe          controllers.WithBigPipe.index
+GET     /withBigPipeClientSide          controllers.WithBigPipe.clientSideTemplating
+
+GET     /withBigPipeEscaping         controllers.WithBigPipe.bigPipeEscaping
+
 GET     /wvyu                     controllers.WvyuController.index(embed: Boolean ?=  false)
 
 

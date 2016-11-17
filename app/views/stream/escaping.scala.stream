@@ -1,0 +1,22 @@
+@import utils._
+@import ui.HtmlStream
+
+@(bigPipe: BigPipe, shouldBeEscaped: PageLet)
+
+
+<html>
+    <head>
+        <link rel="stylesheet" href="/assets/stylesheets/main.css">
+        <script src="/assets/com/ybrikman/ping/big-pipe.js"></script>
+        <script src="/assets/javascripts/mustache.js"></script>
+        <script src="/assets/javascripts/big-pipe-with-mustache.js"></script>
+    </head>
+    <body>
+
+        <h1>Big Pipe Escaping Test</h1>
+        @bigPipe.render { pagelets =>
+            @pagelets(shouldBeEscaped.id)
+        }
+
+    </body>
+</html>
